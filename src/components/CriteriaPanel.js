@@ -1,19 +1,19 @@
 import React from 'react';
 
+import { getImages } from '../api';
+
 
 class CriteriaPanel extends React.Component {
 
   state = {
-    tag: ''
+    tag: 'blueprint'
   };
 
   tagChange = e => this.setState({ tag: e.target.value });
 
   onSearch = async () => {
-    const text = await fetch(`https://cors-anywhere.herokuapp.com/https://flickr.com/services/feeds/photos_public.gne?tags=${this.state.tag}`)
-      .then(res => res.text());//.then(str => new window.DOMParser().parseFromString(str, "text/xml"));
-    const res = text;//.match('/<entry>(.|\n)*?<\/entry>/g');
-    console.log(res);
+    const images = await getImages(this.state);
+    this.props.onSearch(images);
   }
 
 
@@ -28,5 +28,6 @@ class CriteriaPanel extends React.Component {
   }
 
 }
+
 
 export default CriteriaPanel;
