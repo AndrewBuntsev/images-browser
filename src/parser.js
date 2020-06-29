@@ -1,6 +1,7 @@
 // parses whole the text
 export function parse(text) {
     const entries = parseXmlTag(text, 'entry');
+    if (!entries) return [];
     return entries.map(e => parseEntry(e));
 }
 
@@ -19,10 +20,11 @@ function parseEntry(entry) {
 // extracts specific pieces of the author presonal info
 function parseAuthor(author) {
     const name = parseXmlTag(author, 'name')[0];
+    const uri = parseXmlTag(author, 'uri')[0];
     const id = parseXmlTag(author, 'flickr:nsid')[0];
     const avatar = parseXmlTag(author, 'flickr:buddyicon')[0];
 
-    return { name, id, avatar };
+    return { name, uri, id, avatar };
 }
 
 // extracts the image url
